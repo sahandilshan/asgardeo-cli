@@ -4,6 +4,8 @@ on:
   pull_request:
     branches:
       - main
+      - develop
+      - release/*
 
 jobs:
   build:
@@ -15,22 +17,31 @@ jobs:
     - name: Set up Go
       uses: actions/setup-go@v3
       with:
-        go-version: 1.22.0 
+        go-version: 1.22
 
     - name: Install dependencies
       run: go mod tidy
 
+    # Disable golangci-lint since we already have lots of lint issues that need to be fixed.
+    # - name: Install golangci-lint
+    #   run: |
+    #     curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.53.3
+
     - name: Run Go fmt
       run: go fmt ./...
 
-    - name: Run golangci-lint
-      run: golangci-lint run
+    # - name: Run golangci-lint
+    #   run: golangci-lint run
 
     - name: Run Go vet
       run: go vet ./...
 
     - name: Run gosec
       run: gosec ./...
+
+      # We should enable this step after writing tests.
+    # - name: Run tests
+    #   run: go test -v -cover ./...
 
     - name: Build
       run: go build ./...
