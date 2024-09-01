@@ -4,8 +4,6 @@ on:
   pull_request:
     branches:
       - main
-      - develop
-      - release/*
 
 jobs:
   build:
@@ -26,6 +24,10 @@ jobs:
     # - name: Install golangci-lint
     #   run: |
     #     curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.53.3
+
+    - name: Install gosec
+      run: |
+        go install github.com/securego/gosec/v2/cmd/gosec@latest
 
     - name: Run Go fmt
       run: go fmt ./...

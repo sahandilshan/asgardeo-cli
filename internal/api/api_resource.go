@@ -44,3 +44,5 @@ func (api *apiResourceAPI) Delete(ctx context.Context, id string) (err error) {
 	err = api.httpClient.Request(ctx, "DELETE", api.httpClient.URI("api-resources", id))
 	return
 }
+
+// Empty commit to trigger the build
